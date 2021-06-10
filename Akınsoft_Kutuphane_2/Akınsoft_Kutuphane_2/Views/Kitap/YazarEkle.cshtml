@@ -1,0 +1,23 @@
+﻿
+
+
+@model Akınsoft_Kutuphane_2.Models.Yazar
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("YazarEkle", "Kitap", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessYazar", OnFailure = "OnFailureYazar" }))
+{
+
+    <div class="form-group">
+        <input type="hidden" class="form-control" value="@Model.YazarId" name="YazarId" />
+        <div class="form-group">
+            <label for="exampleInputEmail1">Yazar Adı ve Soyadı</label>
+            <input type="text" class="form-control" placeholder="Yazar Adı ve Soyadı" value="@Model.YazarAdSoyad" name="YazarAdSoyad">
+        </div>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+}

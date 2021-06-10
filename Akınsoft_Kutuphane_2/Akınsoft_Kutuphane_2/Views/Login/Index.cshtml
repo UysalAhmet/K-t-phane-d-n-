@@ -1,0 +1,97 @@
+﻿@model Akınsoft_Kutuphane_2.Models.Kullanici
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/Template/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="/Template/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/Template/dist/css/adminlte.min.css">
+    <link href="~/CSS/Loader.css" rel="stylesheet" />
+</head>
+<body class="hold-transition login-page " style="background-image:url('/Template/kitap.jpg');">
+    <div class="login-box">
+
+        <!-- /.login-logo -->
+        <div class="card" style="opacity: 1;">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Giriş Yapınız</p>
+
+                <form action="/Login/LoginForm" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Kullanicı Adı" name="KullaniciAd">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Şifre" name="KullaniciSifre">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Giriş</button>
+                        </div>
+                        <!-- /.col -->
+
+                    </div>
+                    @if (ViewBag.mesaj != null)
+                    {
+                        <div class=" mt-2">
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                                Kullanıcı adı veya parola hatalı
+                            </div>
+
+                        </div>
+                    }
+
+                </form>
+
+
+                <!-- /.social-auth-links -->
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <div class="loader-wrapper">
+        <span class="loader"><span class="loader-inner"></span></span>
+    </div>
+
+    
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="/Template/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/Template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/Template/dist/js/adminlte.min.js"></script>
+    <script>
+        $(window).on("load", function () {
+            $(".loader-wrapper").fadeOut("slow");
+        });
+        
+
+    </script>
+</body>
+</html>

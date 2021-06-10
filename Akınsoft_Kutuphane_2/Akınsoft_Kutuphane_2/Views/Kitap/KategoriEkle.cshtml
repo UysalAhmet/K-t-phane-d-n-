@@ -1,0 +1,23 @@
+﻿
+
+
+@model Akınsoft_Kutuphane_2.Models.Kategori
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("KategoriEkle", "Kitap", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessKat", OnFailure = "OnFailureKat" }))
+{
+
+<div class="form-group">
+    <input type="hidden" class="form-control" value="@Model.KategoriId" name="KategoriId" />
+    <div class="form-group">
+        <label for="exampleInputEmail1">Kategori Adı</label>
+        <input type="text" class="form-control" placeholder="Kategori Adı" value="@Model.KategoriAd" name="KategoriAd">
+    </div>
+</div>
+    
+       
+
+     <button type="submit" class="btn btn-primary">Kaydet</button>
+}

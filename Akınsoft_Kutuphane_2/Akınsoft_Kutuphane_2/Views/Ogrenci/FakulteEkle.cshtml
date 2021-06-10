@@ -1,0 +1,23 @@
+﻿
+
+
+@model Akınsoft_Kutuphane_2.Models.Fakulte
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("FakulteEkle", "Ogrenci", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessFakulte", OnFailure = "OnFailureFakulte" }))
+{
+
+    <div class="form-group">
+        <input type="hidden" class="form-control" value="@Model.FakulteId" name="FakulteId" />
+        <div class="form-group">
+            <label for="exampleInputEmail1">Fakulte Adı</label>
+            <input type="text" class="form-control" placeholder="Fakulte Adı" value="@Model.FakulteAd" name="FakulteAd">
+        </div>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+}

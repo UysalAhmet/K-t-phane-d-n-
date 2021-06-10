@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="col-md-12">
+    <div class="card card-primary card-outline">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-edit"></i>
+                Genel İşlemler
+            </h3>
+        </div>
+        <div class="card-body pad table-responsive">
+            <div class="row">
+                <div class=" col-4">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>Kitap İşlemleri</h3>
+
+                          <p @*style="visibility:collapse"*@>Kitap , Yazar , Kategori  </p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <a href="/Kitap/Index" class="small-box-footer">Git <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>    <div class=" col-4">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>Öğrenci İşlemleri</h3>
+
+                            <p @*style="visibility:collapse"*@>Öğrenci , Bölüm , Fakulte </p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="/Ogrenci/Index" class="small-box-footer">Git <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>    <div class=" col-4">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>Ödünç - Teslim İşlemleri</h3>
+
+                            <p style="visibility:collapse">Teslim Alma , Ödünç Alma  </p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                        <a href="/OduncTeslim/Index" class="small-box-footer">Git<i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+
+
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

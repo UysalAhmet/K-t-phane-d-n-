@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Akinsoft_KutuphaneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Akinsoft_KutuphaneEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Bolum" EntityType="Akinsoft_KutuphaneModel.Bolum" />
+    <EntitySet Name="Fakulte" EntityType="Akinsoft_KutuphaneModel.Fakulte" />
+    <EntitySet Name="Kategori" EntityType="Akinsoft_KutuphaneModel.Kategori" />
+    <EntitySet Name="Kitap" EntityType="Akinsoft_KutuphaneModel.Kitap" />
+    <EntitySet Name="Kullanici" EntityType="Akinsoft_KutuphaneModel.Kullanici" />
+    <EntitySet Name="OduncTeslim" EntityType="Akinsoft_KutuphaneModel.OduncTeslim" />
+    <EntitySet Name="Ogrenci" EntityType="Akinsoft_KutuphaneModel.Ogrenci" />
+    <EntitySet Name="sysdiagrams" EntityType="Akinsoft_KutuphaneModel.sysdiagrams" />
+    <EntitySet Name="Yazar" EntityType="Akinsoft_KutuphaneModel.Yazar" />
+    <AssociationSet Name="FK_Bolum_Fakulte" Association="Akinsoft_KutuphaneModel.FK_Bolum_Fakulte">
+      <End Role="Fakulte" EntitySet="Fakulte" />
+      <End Role="Bolum" EntitySet="Bolum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ogrenci_Bolum" Association="Akinsoft_KutuphaneModel.FK_Ogrenci_Bolum">
+      <End Role="Bolum" EntitySet="Bolum" />
+      <End Role="Ogrenci" EntitySet="Ogrenci" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ogrenci_Fakulte" Association="Akinsoft_KutuphaneModel.FK_Ogrenci_Fakulte">
+      <End Role="Fakulte" EntitySet="Fakulte" />
+      <End Role="Ogrenci" EntitySet="Ogrenci" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Kitap_Kategori" Association="Akinsoft_KutuphaneModel.FK_Kitap_Kategori">
+      <End Role="Kategori" EntitySet="Kategori" />
+      <End Role="Kitap" EntitySet="Kitap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Kitap_Yazar" Association="Akinsoft_KutuphaneModel.FK_Kitap_Yazar">
+      <End Role="Yazar" EntitySet="Yazar" />
+      <End Role="Kitap" EntitySet="Kitap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OduncTeslim_Kitap" Association="Akinsoft_KutuphaneModel.FK_OduncTeslim_Kitap">
+      <End Role="Kitap" EntitySet="Kitap" />
+      <End Role="OduncTeslim" EntitySet="OduncTeslim" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OduncTeslim_Ogrenci" Association="Akinsoft_KutuphaneModel.FK_OduncTeslim_Ogrenci">
+      <End Role="Ogrenci" EntitySet="Ogrenci" />
+      <End Role="OduncTeslim" EntitySet="OduncTeslim" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Bolum">
+    <Key>
+      <PropertyRef Name="BolumId" />
+    </Key>
+    <Property Name="BolumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BolumAd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FakulteId" Type="Int32" />
+    <NavigationProperty Name="Fakulte" Relationship="Akinsoft_KutuphaneModel.FK_Bolum_Fakulte" FromRole="Bolum" ToRole="Fakulte" />
+    <NavigationProperty Name="Ogrenci" Relationship="Akinsoft_KutuphaneModel.FK_Ogrenci_Bolum" FromRole="Bolum" ToRole="Ogrenci" />
+  </EntityType>
+  <EntityType Name="Fakulte">
+    <Key>
+      <PropertyRef Name="FakulteId" />
+    </Key>
+    <Property Name="FakulteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FakulteAd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Bolum" Relationship="Akinsoft_KutuphaneModel.FK_Bolum_Fakulte" FromRole="Fakulte" ToRole="Bolum" />
+    <NavigationProperty Name="Ogrenci" Relationship="Akinsoft_KutuphaneModel.FK_Ogrenci_Fakulte" FromRole="Fakulte" ToRole="Ogrenci" />
+  </EntityType>
+  <EntityType Name="Kategori">
+    <Key>
+      <PropertyRef Name="KategoriId" />
+    </Key>
+    <Property Name="KategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KategoriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Kitap" Relationship="Akinsoft_KutuphaneModel.FK_Kitap_Kategori" FromRole="Kategori" ToRole="Kitap" />
+  </EntityType>
+  <EntityType Name="Kitap">
+    <Key>
+      <PropertyRef Name="KitapId" />
+    </Key>
+    <Property Name="KitapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KitapAd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="KategoriId" Type="Int32" />
+    <Property Name="YayinYili" Type="Int32" />
+    <Property Name="YazarId" Type="Int32" />
+    <Property Name="SayfaSayisi" Type="Int32" />
+    <Property Name="AnahtarKelime" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ISBNNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StokDurum" Type="Boolean" />
+    <NavigationProperty Name="Kategori" Relationship="Akinsoft_KutuphaneModel.FK_Kitap_Kategori" FromRole="Kitap" ToRole="Kategori" />
+    <NavigationProperty Name="Yazar" Relationship="Akinsoft_KutuphaneModel.FK_Kitap_Yazar" FromRole="Kitap" ToRole="Yazar" />
+    <NavigationProperty Name="OduncTeslim" Relationship="Akinsoft_KutuphaneModel.FK_OduncTeslim_Kitap" FromRole="Kitap" ToRole="OduncTeslim" />
+  </EntityType>
+  <EntityType Name="Kullanici">
+    <Key>
+      <PropertyRef Name="KullaniciId" />
+    </Key>
+    <Property Name="KullaniciId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KullaniciAd" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="KullaniciSifre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="OduncTeslim">
+    <Key>
+      <PropertyRef Name="OdunTeslimId" />
+    </Key>
+    <Property Name="OdunTeslimId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KitapId" Type="Int32" />
+    <Property Name="OgrenciId" Type="Int32" />
+    <Property Name="OduncTarihi" Type="DateTime" Precision="3" />
+    <Property Name="TeslimTarihi" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Kitap" Relationship="Akinsoft_KutuphaneModel.FK_OduncTeslim_Kitap" FromRole="OduncTeslim" ToRole="Kitap" />
+    <NavigationProperty Name="Ogrenci" Relationship="Akinsoft_KutuphaneModel.FK_OduncTeslim_Ogrenci" FromRole="OduncTeslim" ToRole="Ogrenci" />
+  </EntityType>
+  <EntityType Name="Ogrenci">
+    <Key>
+      <PropertyRef Name="OgrenciIId" />
+    </Key>
+    <Property Name="OgrenciIId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OgrenciNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Soyad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FakulteId" Type="Int32" />
+    <Property Name="BolumId" Type="Int32" />
+    <Property Name="Adres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MemleketAdres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+    <Property Name="CepTelefonu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Bolum" Relationship="Akinsoft_KutuphaneModel.FK_Ogrenci_Bolum" FromRole="Ogrenci" ToRole="Bolum" />
+    <NavigationProperty Name="Fakulte" Relationship="Akinsoft_KutuphaneModel.FK_Ogrenci_Fakulte" FromRole="Ogrenci" ToRole="Fakulte" />
+    <NavigationProperty Name="OduncTeslim" Relationship="Akinsoft_KutuphaneModel.FK_OduncTeslim_Ogrenci" FromRole="Ogrenci" ToRole="OduncTeslim" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Yazar">
+    <Key>
+      <PropertyRef Name="YazarId" />
+    </Key>
+    <Property Name="YazarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="YazarAdSoyad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Kitap" Relationship="Akinsoft_KutuphaneModel.FK_Kitap_Yazar" FromRole="Yazar" ToRole="Kitap" />
+  </EntityType>
+  <Association Name="FK_Bolum_Fakulte">
+    <End Type="Akinsoft_KutuphaneModel.Fakulte" Role="Fakulte" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.Bolum" Role="Bolum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fakulte">
+        <PropertyRef Name="FakulteId" />
+      </Principal>
+      <Dependent Role="Bolum">
+        <PropertyRef Name="FakulteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ogrenci_Bolum">
+    <End Type="Akinsoft_KutuphaneModel.Bolum" Role="Bolum" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.Ogrenci" Role="Ogrenci" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bolum">
+        <PropertyRef Name="BolumId" />
+      </Principal>
+      <Dependent Role="Ogrenci">
+        <PropertyRef Name="BolumId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ogrenci_Fakulte">
+    <End Type="Akinsoft_KutuphaneModel.Fakulte" Role="Fakulte" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.Ogrenci" Role="Ogrenci" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fakulte">
+        <PropertyRef Name="FakulteId" />
+      </Principal>
+      <Dependent Role="Ogrenci">
+        <PropertyRef Name="FakulteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Kitap_Kategori">
+    <End Type="Akinsoft_KutuphaneModel.Kategori" Role="Kategori" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.Kitap" Role="Kitap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategori">
+        <PropertyRef Name="KategoriId" />
+      </Principal>
+      <Dependent Role="Kitap">
+        <PropertyRef Name="KategoriId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Kitap_Yazar">
+    <End Type="Akinsoft_KutuphaneModel.Yazar" Role="Yazar" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.Kitap" Role="Kitap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Yazar">
+        <PropertyRef Name="YazarId" />
+      </Principal>
+      <Dependent Role="Kitap">
+        <PropertyRef Name="YazarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OduncTeslim_Kitap">
+    <End Type="Akinsoft_KutuphaneModel.Kitap" Role="Kitap" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.OduncTeslim" Role="OduncTeslim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kitap">
+        <PropertyRef Name="KitapId" />
+      </Principal>
+      <Dependent Role="OduncTeslim">
+        <PropertyRef Name="KitapId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OduncTeslim_Ogrenci">
+    <End Type="Akinsoft_KutuphaneModel.Ogrenci" Role="Ogrenci" Multiplicity="0..1" />
+    <End Type="Akinsoft_KutuphaneModel.OduncTeslim" Role="OduncTeslim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ogrenci">
+        <PropertyRef Name="OgrenciIId" />
+      </Principal>
+      <Dependent Role="OduncTeslim">
+        <PropertyRef Name="OgrenciId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

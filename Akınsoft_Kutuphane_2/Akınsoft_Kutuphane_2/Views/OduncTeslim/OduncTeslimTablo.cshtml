@@ -1,0 +1,133 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/Template/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="/Template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/Template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="/Template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/Template/dist/css/adminlte.min.css">
+<!-- /.card-header -->
+<div class="card-body">
+    <table id="example4" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>İşlem Kodu</th>
+                <th>Ogrenci </th>
+                <th>Kitap </th>
+                <th>Odünç Alınma Tarihi</th>
+                <th>Teslim Alınma Tarihi</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.OdunTeslimId</td>
+                <td>@(item.Ogrenci.Ad+" "+" "+item.Ogrenci.Soyad)</td>
+                <td>@(item.Kitap.KitapAd+" - "+item.Kitap.Yazar.YazarAdSoyad)</td>
+                <td>@item.OduncTarihi.ToString("dd/M/yyyy HH:mm")</td>
+                @if (item.TeslimTarihi == null)
+                {
+
+                    <td>
+                        <b>Teslim Edilmedi</b>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @item.TeslimTarihi.ToString("dd/M/yyyy HH:mm")
+                    </td>
+
+                }
+
+                <td>
+                    @if (item.TeslimTarihi == null)
+                    {
+                        <b>Teslim Edilmedi</b>
+                    }
+                    else
+                    {
+                        <b>Teslim Alındı</b>
+                    }
+
+                </td>
+
+                @if (item.TeslimTarihi == null)
+                {
+                    <td>
+                        <a onclick="TeslimAlTablo(@item.OdunTeslimId)" class="btn btn-primary btn-flat">Teslim Al</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a onclick="TeslimIptalTablo(@item.OdunTeslimId)" class="btn btn-danger btn-flat">Teslim İptal</a>
+                    </td>
+                }
+
+
+                
+
+            </tr>
+
+            }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>İşlem Kodu</th>
+                    <th>Ogrenci Ad</th>
+                    <th>Kitap Ad</th>
+                    <th>Odünç Alınma Tarihi</th>
+                    <th>Teslim Alınma Tarihi</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+    <!-- Bootstrap 4 -->
+    <!-- DataTables  & Plugins -->
+    <script src="/Template/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/Template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/Template/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/Template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="/Template/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/Template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="/Template/plugins/jszip/jszip.min.js"></script>
+    <script src="/Template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="/Template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="/Template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script>
+        $(function () {
+
+            $('#example4').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+
+                "responsive": true,
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.22/i18n/Turkish.json"
+                },
+
+
+
+            });
+        });
+    </script>

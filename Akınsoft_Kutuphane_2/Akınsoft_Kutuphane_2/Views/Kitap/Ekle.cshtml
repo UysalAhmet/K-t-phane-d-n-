@@ -1,0 +1,124 @@
+﻿
+
+
+@model Akınsoft_Kutuphane_2.Models.Kitap
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("Ekle", "Kitap", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))
+{
+
+    <div class="form-group">
+        <input type="hidden" class="form-control" value="@Model.KitapId" name="KitapId">
+        <label for="exampleInputEmail1">Kitap Adı</label>
+        <input type="text" class="form-control" value="@Model.KitapAd" placeholder="Kitabın Adını Giriniz" name="KitapAd">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Kategori</label>
+            <select class="form-control" name="KategoriId">
+                @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Kategori>)ViewBag.kategori)
+                {
+                    if (item.KategoriId == Model.KategoriId)
+                    {
+                        <option selected value="@item.KategoriId">@item.KategoriAd</option>
+                    }
+                    else
+                    {
+                        <option value="@item.KategoriId">@item.KategoriAd</option>
+                    }
+
+                }
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Yayın Yılı</label>
+            <input type="number" class="form-control" placeholder="Yayın Yılını  Giriniz" value="@Model.YayinYili" name="YayinYili">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Yazar</label>
+            <select class="form-control" name="YazarId">
+                @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Yazar>)ViewBag.yazar)
+                {
+                    if (item.YazarId == Model.YazarId)
+                    {
+                        <option selected value="@item.YazarId">@item.YazarAdSoyad</option>
+                    }
+                    else
+                    {
+                        <option value="@item.YazarId">@item.YazarAdSoyad</option>
+                    }
+                }
+
+
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">ISBN Numarası</label>
+            <input type="number" class="form-control" placeholder="ISBN Numarası" value="@Model.ISBNNo" name="ISBNNo">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Sayfa Sayısı</label>
+            <input type="number" class="form-control" placeholder="Sayfa Sayısını Giriniz" value="@Model.SayfaSayisi" name="SayfaSayisi">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Anahtar Kelimeler</label>
+            <input type="text" class="form-control" placeholder="Anahtar Kelimeler" value="@Model.AnahtarKelime" name="AnahtarKelime">
+        </div>
+    </div>
+    <div class="form-group clearfix">
+        <div class="icheck-primary d-inline">
+            @*<input type="radio" id="radioPrimary1" value="true" name="StokDurum" checked>*@
+            @Html.RadioButtonFor(model => model.StokDurum, "true", new { @class = "icheck-primary d-inline", @id = "radioPrimary1" })
+            <label for="radioPrimary1">
+                Stokta Var
+            </label>
+        </div>
+        <div class="icheck-primary d-inline">
+            @*<input type="radio" id="radioPrimary2" value="false" name="StokDurum">*@
+            @Html.RadioButtonFor(model => model.StokDurum, "false", new { @class = "icheck-primary d-inline", @id = "radioPrimary2" })
+            <label for="radioPrimary2">
+                Stokta Yok
+            </label>
+        </div>
+
+    </div>
+    //@Html.RadioButtonFor(model => model.StokDurum, "true", new { @class = "icheck-primary d-inline", @id= "radioPrimary1" })// @Html.Label("tea:", new { @for = "radioPrimary1" })
+    // @Html.RadioButtonFor(model => model.StokDurum, "false", new { @class = "icheck-primary d-inline", @id = "radioPrimary2" })// @Html.Label("coffe:", new { @for = "radioPrimary2" })
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+}
+@*<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script type="text/javascript">
+        function OnSuccess(response) {
+
+            if (response.Durum == true) {
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: response.Mesaj,
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+            else {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: response.Mesaj,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+        }
+        function OnFailure(response) {
+            if (response.Durum != true) {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: response.Mesaj,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+
+        }
+    </script>*@

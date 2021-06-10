@@ -1,0 +1,93 @@
+﻿
+
+
+@model Akınsoft_Kutuphane_2.Models.Ogrenci
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("OgrenciEkle", "Ogrenci", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))
+{
+
+<div class="form-group">
+    <input type="hidden" class="form-control" value="@Model.OgrenciIId" name="OgrenciIId">
+    <label for="exampleInputEmail1">Ogrenci No</label>
+    <input type="number" class="form-control" value="@Model.OgrenciNo" placeholder="Ogrencinin Numarasını Giriniz" name="OgrenciNo">
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Ogrenci Ad</label>
+        <input type="text" class="form-control" placeholder="Ogrenci Adını   Giriniz" value="@Model.Ad" name="Ad">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Ogrenci Soyad </label>
+        <input type="text" class="form-control" placeholder="Ogrenci Soyadını" value="@Model.Soyad" name="Soyad">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Adres</label>
+        <input type="text" class="form-control" placeholder="Adres Giriniz" value="@Model.Adres" name="Adres">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Memleket Adresi </label>
+        <input type="text" class="form-control" placeholder="Memleket Adresini Giriniz" value="@Model.MemleketAdres" name="MemleketAdres">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1"> Telefon Numarası </label>
+        <input type="text" class="form-control" placeholder="Cep Telefonu Giriniz" value="@Model.CepTelefonu" name="CepTelefonu">
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Fakulte</label>
+        <select id="asd" onchange="FakulteSecili($('#asd option:selected'))" class="form-control" name="FakulteId">
+            <option value="null">---</option>
+            @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Fakulte>)ViewBag.Fakulteler)
+            {
+
+                if (item.FakulteId == Model.FakulteId)
+                {
+                    <option selected value="@item.FakulteId">@item.FakulteAd</option>
+                }
+                else
+                {
+                    <option value="@item.FakulteId">@item.FakulteAd</option>
+                }
+
+            }
+        </select>
+
+    </div>
+    <div class="form-group " id="Bolum" style="display:none;">
+        <label for="exampleFormControlSelect1">Bolumler</label>
+        <select  id="bolum" class="form-control  "  name="BolumId">
+            <option value="null">---</option>
+            @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Bolum>)ViewBag.Bolumler)
+            {
+
+                if (item.BolumId == Model.BolumId)
+                {
+                    <option selected value="@item.BolumId">@item.BolumAd</option>
+                }
+                else
+                {
+                    <option value="@item.BolumId">@item.BolumAd</option>
+                }
+
+
+            }
+
+
+        </select>
+        <div id="ddd">
+
+        </div>
+    </div>
+   
+        </div>
+
+     <button type="submit" class="btn btn-primary">Kaydet</button>
+}
+@section scripts{
+    
+    <script>
+      
+    </script>
+    }

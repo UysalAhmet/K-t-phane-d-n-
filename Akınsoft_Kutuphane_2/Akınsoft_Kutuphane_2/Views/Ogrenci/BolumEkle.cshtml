@@ -1,0 +1,40 @@
+﻿
+
+
+@model Akınsoft_Kutuphane_2.Models.Bolum
+
+@{
+    Layout = null;
+}
+@using (Ajax.BeginForm("BolumEkle", "Ogrenci", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessBolum", OnFailure = "OnFailureBolum" }))
+{
+
+    <div class="form-group">
+        <input type="hidden" class="form-control" value="@Model.BolumId" name="BolumId" />
+        <div class="form-group">
+            <label for="exampleInputEmail1">Bolum Ad</label>
+            <input type="text" class="form-control" placeholder="Bolum Adı" value="@Model.BolumAd" name="BolumAd">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="exampleFormControlSelect1">Fakulte</label>
+        <select class="form-control" name="FakulteId">
+            @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Fakulte>)ViewBag.Fakulte)
+            {
+                if (item.FakulteId == Model.FakulteId)
+                {
+                    <option selected value="@item.FakulteId">@item.FakulteAd</option>
+                }
+                else
+                {
+                    <option value="@item.FakulteId">@item.FakulteAd</option>
+                }
+
+            }
+        </select>
+
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+}

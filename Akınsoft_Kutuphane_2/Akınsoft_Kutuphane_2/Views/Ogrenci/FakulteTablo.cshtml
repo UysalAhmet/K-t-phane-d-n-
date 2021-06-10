@@ -1,0 +1,90 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/Template/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="/Template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/Template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="/Template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/Template/dist/css/adminlte.min.css">
+<!-- /.card-header -->
+<div class="card-body">
+    <table id="example5" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Fakulte No</th>
+                <th>Fakulte Ad</th>
+                <th>İşlemler</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.FakulteId</td>
+                    <td>@item.FakulteAd</td>
+
+
+                    <td class=" text-center">
+                        <div class="btn btn-group ">
+                            <a onclick="FakulteEdit(@item.FakulteId)" class="btn btn-warning btn-flat"><i class="far fa-edit"></i> Duzenle</a>
+                            <a onclick="FakulteDelete(@item.FakulteId)" class="btn btn-danger btn-flat"><i class="far fa-trash-alt"></i> Sil</a>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Fakulte No</th>
+                <th>Fakulte Ad</th>
+                <th>İşlemler</th>
+
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<!-- /.card-body -->
+<!-- Bootstrap 4 -->
+<!-- DataTables  & Plugins -->
+<script src="/Template/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/Template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/Template/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/Template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/Template/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/Template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/Template/plugins/jszip/jszip.min.js"></script>
+<script src="/Template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/Template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/Template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+    $(function () {
+
+        $('#example5').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+
+            "responsive": true,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.22/i18n/Turkish.json"
+            },
+
+
+
+        });
+    });
+</script>

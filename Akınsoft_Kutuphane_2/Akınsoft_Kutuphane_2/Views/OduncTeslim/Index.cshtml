@@ -1,0 +1,413 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("OduncEkle", "OduncTeslim", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessOdunc", OnFailure = "OnFailureOdunc", }, new { @id = "OduncForm" }))
+{
+
+    <div class="card card-default mt-3">
+        <div class="card-header">
+            <h3 class="card-title">Ödünç İşlemi</h3>
+
+            @*<div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>*@
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Ogrenci Seçiniz</label>
+                        <select id="OgrenciSelect" class="form-control select2bs4" name="OgrenciId" style="width: 100%;">
+                            <option value="null">---</option>
+                            @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Ogrenci>)ViewBag.Ogrenci)
+                            {
+                                <option value="@item.OgrenciIId">@(item.Ad+""+" "+item.Soyad+" -"+" "+item.OgrenciNo)</option>
+                            }
+
+                        </select>
+                    </div>
+                    <!-- /.form-group -->
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Kitap Seçiniz</label>
+                        <select id="KitapSelect" class="form-control select2bs4" name="KitapId" style="width: 100%;">
+                            @foreach (var item in (IEnumerable<Akınsoft_Kutuphane_2.Models.Kitap>)ViewBag.Kitap)
+                            {
+                                <option value="@item.KitapId">@(item.KitapAd+""+" - "+item.Yazar.YazarAdSoyad+" -"+" "+item.ISBNNo)</option>
+                            }
+
+                        </select>
+                    </div>
+                    <!-- /.form-group -->
+                    <!-- /.form-group -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <div class="float-right col-6">
+                @*<a id="KontrolButton"  onclick="KontrolEt($('#OgrenciSelect option:selected'))" class="btn btn-flat btn-warning float-right">Kontrol Et</a>*@
+                <button disabled id="KontrolButton" onclick="KontrolEt($('#OgrenciSelect option:selected'))" type="button" class="btn btn-flat btn-warning float-right">Kontrol Et</button>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.card-body -->
+
+    </div>
+    <!-- /.card -->
+
+}
+
+
+<div class="card card-default mt-3">
+    <div class="card-header">
+        <h3 class="card-title">Teslim - Ödünç Rapor </h3>
+
+     
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      
+        <div id="OduncTeslimTablo">
+
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.card-body -->
+
+</div>
+
+
+<div class="modal fade" id="modal-lg">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Large Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalbody">
+
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "/OduncTeslim/OduncTeslimTablo/",
+                type: "get",
+                success: function (result) {
+                    $("#OduncTeslimTablo").html(result);
+                }
+            });
+        });
+
+        $("#OgrenciSelect").change(function () {
+            $('#OgrenciSelect option').each(function () {
+                if ($(this).is(':selected')) {
+                    if ($('#OgrenciSelect').val() != "null") {
+                        $("#KontrolButton").attr("disabled", false);
+                    }
+                    else {
+                        $("#KontrolButton").attr("disabled", true);
+                    }
+                }
+            })
+        })
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2()
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+
+        })
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
+        function KontrolEt(id) {
+            $.ajax({
+                url: "/OduncTeslim/KontrolEt/" + id.val(),
+                type: "get",
+                success: function (result) {
+                    Swal.fire({
+
+                        html: result.Mesaj,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: "Red",
+                        confirmButtonText: 'Onay'
+                    }).then((results) => {
+                        if (results.isConfirmed) {
+
+                            $("#OduncForm").submit()
+                        }
+                    })
+                }
+            });
+        }
+        function OnSuccessOdunc(response) {
+
+            if (response.Durum == true) {
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: response.Mesaj,
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //OgrenciKontrol($('#OgrenciSelect2 option:selected'));
+                        OduncKitapYenile();
+                        $.ajax({
+                            url: "/OduncTeslim/OduncTeslimTablo/",
+                            type: "get",
+                            success: function (result) {
+                                $("#OduncTeslimTablo").html(result);
+                            }
+                        });
+                        console.log("basarılı");
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: response.Mesaj,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+        }
+        function OnFailureOdunc(response) {
+            if (response.Durum != true) {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: response.Mesaj,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+
+        }
+        //function OgrenciKontrol(id) {
+
+        //    $("#KitapSelect2").empty();
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: "/OduncTeslim/OgrenciKitaplari/" + id.val(),
+        //        dataType: 'json',
+
+        //        success: function (mems) {
+        //            $.each(mems, function (i, member) {
+        //                $("#KitapSelect2").append('<option value="'
+        //                    + member.Value + '">'
+        //                    + member.Text + '</option>');
+        //            });
+
+        //        },
+        //        error: function (ex) {
+
+        //        }
+        //    });
+        //    return false;
+        //}
+        function OduncKitapYenile() {
+            $("#KitapSelect").empty();
+            $.ajax({
+                type: 'POST',
+                url: "/OduncTeslim/OduncKitapYenile/",
+                dataType: 'json',
+
+                success: function (mems) {
+                    $.each(mems, function (i, member) {
+                        $("#KitapSelect").append('<option value="'
+                            + member.Value + '">'
+                            + member.Text + '</option>');
+                    });
+
+                },
+                error: function (ex) {
+
+                }
+            });
+            return false;
+        }
+
+        function OnSuccessTeslim(response) {
+
+            if (response.Durum == true) {
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: response.Mesaj,
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //OgrenciKontrol($('#OgrenciSelect2 option:selected'));
+                        OduncKitapYenile();
+                        $.ajax({
+                            url: "/OduncTeslim/OduncTeslimTablo/",
+                            type: "get",
+                            success: function (result) {
+                                $("#OduncTeslimTablo").html(result);
+                            }
+                        });
+                        console.log("basarılı");
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: response.Mesaj,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+        }
+        function OnFailureTeslim(response) {
+            if (response.Durum != true) {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: response.Mesaj,
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                })
+            }
+
+        }
+        function TeslimAlTablo(id) {
+                Swal.fire({
+                    title: 'Teslim Al',
+                    text: ' Teslim Alma İşlemini Onaylıyormusunuz ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet Onaylıyorum',
+                    cancelButtonText: "Red"
+                }).then((results) => {
+                    if (results.isConfirmed) {
+                        
+                        $.ajax({
+                            url: "/OduncTeslim/TeslimAll/" + id,
+                            type: "post",
+                            success: function (result) {
+                                if (result.Durum == true) {
+                                    Swal.fire({
+                                        title: 'Başarılı!',
+                                        text: result.Mesaj,
+                                        icon: 'success',
+                                        confirmButtonText: 'Tamam'
+                                    }).then((res) => {
+                                        if (res.isConfirmed) {
+                                            $.ajax({
+                                                url: "/OduncTeslim/OduncTeslimTablo",
+                                                type: "get",
+                                                success: function (result) {
+                                                    //OgrenciKontrol($('#OgrenciSelect2 option:selected'));
+                                                    OduncKitapYenile();
+                                                    $("#OduncTeslimTablo").html(result);
+                                                }
+                                            });
+                                        }
+                                    })
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: 'Hata!',
+                                        text: result.Mesaj,
+                                        icon: 'error',
+                                        confirmButtonText: 'Tamam'
+                                    })
+                                }
+                            }
+                        });
+                    }
+                })
+
+
+
+
+
+            
+        }
+        function TeslimIptalTablo(id) {
+            Swal.fire({
+                title: 'Teslim İptal',
+                text: ' Teslim Alma İşlemini İptal Etmek İstediğinizden Eminmisiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet Onaylıyorum',
+                cancelButtonText: "Red"
+            }).then((results) => {
+                if (results.isConfirmed) {
+
+                    $.ajax({
+                        url: "/OduncTeslim/TeslimIptal/" + id,
+                        type: "post",
+                        success: function (result) {
+                            if (result.Durum == true) {
+                                Swal.fire({
+                                    title: 'Başarılı!',
+                                    text: result.Mesaj,
+                                    icon: 'success',
+                                    confirmButtonText: 'Tamam'
+                                }).then((res) => {
+                                    if (res.isConfirmed) {
+                                        $.ajax({
+                                            url: "/OduncTeslim/OduncTeslimTablo",
+                                            type: "get",
+                                            success: function (result) {
+                                                //OgrenciKontrol($('#OgrenciSelect2 option:selected'));
+                                                OduncKitapYenile();
+                                                $("#OduncTeslimTablo").html(result);
+                                            }
+                                        });
+                                    }
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'Hata!',
+                                    text: result.Mesaj,
+                                    icon: 'error',
+                                    confirmButtonText: 'Tamam'
+                                })
+                            }
+                        }
+                    });
+                }
+            })
+
+
+
+
+
+
+        }
+    </script>
+}
+
